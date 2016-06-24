@@ -1,0 +1,276 @@
+﻿<phone:PhoneApplicationPage x:Class="Pr0gramm.MainPage"
+                            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                            xmlns:controls="clr-namespace:RateMyApp.Controls;assembly=RateMyApp"
+                            xmlns:converters="clr-namespace:Coding4Fun.Toolkit.Controls.Converters;assembly=Coding4Fun.Toolkit.Controls"
+                            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                            xmlns:extensions="clr-namespace:Pr0gramm.Extensions"
+                            xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+                            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                            xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+                            xmlns:primitives="clr-namespace:Microsoft.Phone.Controls.Primitives;assembly=Microsoft.Phone"
+                            xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+                            xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+                            DataContext="{Binding Main,
+                                                  Source={StaticResource Locator}}"
+                            FontFamily="{StaticResource PhoneFontFamilyNormal}"
+                            FontSize="{StaticResource PhoneFontSizeNormal}"
+                            Foreground="{StaticResource PhoneForegroundBrush}"
+                            Orientation="Portrait"
+                            SupportedOrientations="Portrait"
+                            shell:SystemTray.IsVisible="True"
+                            mc:Ignorable="d">
+    <phone:PhoneApplicationPage.Resources>
+        <extensions:DatetimeAgoConverter x:Key="DatetimeAgoConverter" />
+        <extensions:MarkToColorConverter x:Key="MarkToColorConverter" />
+        <extensions:UpDownVotePointCoverter x:Key="UpDownVotePointCoverter" />
+        <extensions:LayoutModeConverter x:Key="LayoutModeConverter" />
+        <extensions:MultiDeviceHeightConverter x:Key="MultiDeviceHeightConverter" />
+        <extensions:VideoPlayIconPostToVisibilityConverter x:Key="VideoPlayIconPostToVisibilityConverter" />
+        <extensions:VideoPlayIconPostToImageConverter x:Key="VideoPlayIconPostToImageConverter" />
+        <extensions:GridCellSizeConverter x:Key="GridCellSizeConverter" />
+        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+
+        <Style x:Key="PivotStyle" TargetType="phone:Pivot">
+            <Setter Property="Margin" Value="0" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Foreground" Value="{StaticResource PhoneForegroundBrush}" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="ItemsPanel">
+                <Setter.Value>
+                    <ItemsPanelTemplate>
+                        <Grid />
+                    </ItemsPanelTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="phone:Pivot">
+                        <Grid HorizontalAlignment="{TemplateBinding HorizontalAlignment}" VerticalAlignment="{TemplateBinding VerticalAlignment}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="20" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <ContentPresenter Margin="24,17,0,-50"
+                                              Content="{TemplateBinding Title}"
+                                              ContentTemplate="{TemplateBinding TitleTemplate}" />
+
+                            <primitives:PivotHeadersControl x:Name="HeadersListElement"
+                                                            Grid.Column="1"
+                                                            Margin="0,0,25,-50"
+                                                            HorizontalAlignment="Right" />
+
+                            <ItemsPresenter x:Name="PivotItemPresenter"
+                                            Grid.Row="2"
+                                            Grid.ColumnSpan="3"
+                                            Margin="0 0 0 0" />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <DataTemplate x:Key="SideBySideImagesTemplate">
+            <Grid Margin="0 0 0 0" Tap="OpenPostTap">
+                <Image Source="{Binding Thumb}" Stretch="Fill" />
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="BigImageScrollTemplate">
+            <Grid Margin="0 0 0 20" Tap="OpenPostTap">
+                <TextBlock HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           FontSize="45"
+                           Text="{Binding Path=LocalizedResources.Loading,
+                                          Source={StaticResource LocalizedStrings}}" />
+                <Image Name="imgGameList"
+                       ImageOpened="ImgGameList_OnImageOpened"
+                       Stretch="Fill">
+                    <Image.Source>
+                        <BitmapImage CreateOptions="BackgroundCreation" UriSource="{Binding Converter={StaticResource VideoPlayIconPostToImageConverter}}" />
+                    </Image.Source>
+                </Image>
+                <Image Width="200"
+                       Height="200"
+                       Stretch="Fill"
+                       Visibility="{Binding Converter={StaticResource VideoPlayIconPostToVisibilityConverter}}">
+                    <Image.Source>
+                        <BitmapImage CreateOptions="BackgroundCreation"
+                                     DecodePixelHeight="200"
+                                     DecodePixelWidth="200"
+                                     UriSource="..\Resources\Media-Play.png" />
+                    </Image.Source>
+                </Image>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="PostTemplate">
+            <Grid Margin="5 1 5 1"
+                  Tap="OpenPostTap"
+                  toolkit:TiltEffect.IsTiltEnabled="True">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="5" />
+                    <ColumnDefinition Width="100" />
+                </Grid.ColumnDefinitions>
+                <Border Grid.RowSpan="5"
+                        Grid.Column="2"
+                        Width="100"
+                        Height="100"
+                        VerticalAlignment="Top"
+                        BorderBrush="{StaticResource PhoneAccentBrush}"
+                        BorderThickness="2">
+                    <Image Width="100"
+                           Height="100"
+                           Source="{Binding Thumb}"
+                           Stretch="Fill" />
+                </Border>
+                <StackPanel Grid.Row="0"
+                            Grid.Column="0"
+                            Orientation="Horizontal">
+                    <TextBlock Foreground="DarkGray" Text="{Binding ReadableCreatedTime, Converter={StaticResource DatetimeAgoConverter}}" />
+                    <TextBlock Foreground="DarkGray" Text="{Binding Path=LocalizedResources.FromLow, Source={StaticResource LocalizedStrings}}" />
+                    <Border Width="15"
+                            Height="15"
+                            Margin="0 0 0 4"
+                            Background="{Binding Mark,
+                                                 Converter={StaticResource MarkToColorConverter}}"
+                            BorderBrush="Black"
+                            BorderThickness="0.5"
+                            CornerRadius="50" />
+                    <TextBlock Margin="2 0 0 0" Text="{Binding User}" />
+                </StackPanel>
+
+                <TextBlock Grid.Row="1"
+                           Grid.Column="0"
+                           HorizontalAlignment="Left"
+                           FontSize="30"
+                           Text="{Binding Converter={StaticResource UpDownVotePointCoverter}}" />
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="PostImageTemplate">
+            <Grid Tap="OpenPostTap" toolkit:TiltEffect.IsTiltEnabled="True">
+                <Border Width="100"
+                        Height="100"
+                        VerticalAlignment="Top"
+                        BorderBrush="{StaticResource PhoneAccentBrush}"
+                        BorderThickness="1">
+                    <Image Width="100"
+                           Height="100"
+                           Source="{Binding Thumb}"
+                           Stretch="Fill" />
+                </Border>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="SelectingTemplate">
+            <extensions:PostViewItemSelector HorizontalContentAlignment="Stretch"
+                                             BigImageScrollTemplate="{StaticResource BigImageScrollTemplate}"
+                                             Content="{Binding}"
+                                             PostImageTemplate="{StaticResource PostImageTemplate}"
+                                             PostTemplate="{StaticResource PostTemplate}"
+                                             SideBySideTemplate="{StaticResource SideBySideImagesTemplate}" />
+        </DataTemplate>
+    </phone:PhoneApplicationPage.Resources>
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid x:Name="InboxInfo"
+              Margin="0,-20,25,0"
+              HorizontalAlignment="Center"
+              VerticalAlignment="Top">
+            <Image Width="50" Source="Resources/Mail -03.png" />
+            <TextBlock Margin="10 0 0 10"
+                       HorizontalAlignment="Left"
+                       VerticalAlignment="Bottom"
+                       FontSize="15"
+                       Text="{Binding InboxCount}" />
+        </Grid>
+
+
+        <controls:FeedbackOverlay x:Name="FeedbackOverlay"
+                                  Grid.RowSpan="2"
+                                  ApplicationName="{Binding Path=LocalizedResources.ApplicationName,
+                                                            Source={StaticResource LocalizedStrings}}"
+                                  Canvas.ZIndex="500"
+                                  CompanyName="{Binding Path=LocalizedResources.CompanyName,
+                                                        Source={StaticResource LocalizedStrings}}"
+                                  FeedbackMessage1="{Binding Path=LocalizedResources.FeedbackMsg1,
+                                                             Source={StaticResource LocalizedStrings}}"
+                                  FeedbackNo="{Binding Path=LocalizedResources.AnswNo1,
+                                                       Source={StaticResource LocalizedStrings}}"
+                                  FeedbackTitle="{Binding Path=LocalizedResources.FeedbackMsg2,
+                                                          Source={StaticResource LocalizedStrings}}"
+                                  FeedbackTo="{Binding Path=LocalizedResources.FeedbackTo,
+                                                       Source={StaticResource LocalizedStrings}}"
+                                  FeedbackYes="{Binding Path=LocalizedResources.GiveFeedback,
+                                                        Source={StaticResource LocalizedStrings}}"
+                                  RatingMessage1="{Binding Path=LocalizedResources.RatingMsg1,
+                                                           Source={StaticResource LocalizedStrings}}"
+                                  RatingMessage2="{Binding Path=LocalizedResources.RatingMsg2,
+                                                           Source={StaticResource LocalizedStrings}}"
+                                  RatingNo="{Binding Path=LocalizedResources.RatingNo,
+                                                     Source={StaticResource LocalizedStrings}}"
+                                  RatingTitle="{Binding Path=LocalizedResources.QuestionNo1,
+                                                        Source={StaticResource LocalizedStrings}}"
+                                  RatingYes="{Binding Path=LocalizedResources.RatingYes,
+                                                      Source={StaticResource LocalizedStrings}}" />
+
+        <phone:Pivot x:Name="PivotElement"
+                     Title="{Binding Path=LocalizedResources.ApplicationTitle,
+                                     Source={StaticResource LocalizedStrings}}"
+                     Height="{Binding ConverterParameter=690,
+                                      Converter={StaticResource MultiDeviceHeightConverter}}"
+                     SelectionChanged="PivotItemChanged"
+                     Style="{StaticResource PivotStyle}">
+            <phone:Pivot.HeaderTemplate>
+                <DataTemplate>
+                    <TextBlock FontSize="45" Text="{Binding}" />
+                </DataTemplate>
+            </phone:Pivot.HeaderTemplate>
+            <phone:PivotItem Width="465" Header="{Binding Path=LocalizedResources.Hot, Source={StaticResource LocalizedStrings}}">
+                <ScrollViewer>
+                    <phone:LongListSelector x:Name="PostsListSelector"
+                                            Width="465"
+                                            Height="{Binding ConverterParameter=620,
+                                                             Converter={StaticResource MultiDeviceHeightConverter}}"
+                                            GridCellSize="{Binding Converter={StaticResource GridCellSizeConverter}}"
+                                            ItemTemplate="{StaticResource SelectingTemplate}"
+                                            ItemsSource="{Binding Posts}"
+                                            LayoutMode="{Binding Converter={StaticResource LayoutModeConverter}}">
+                        <i:Interaction.Behaviors>
+                            <extensions:IncrementalLoadingBehavior LoadCommand="{Binding LoadPostsCommand}" />
+                        </i:Interaction.Behaviors>
+                    </phone:LongListSelector>
+                </ScrollViewer>
+            </phone:PivotItem>
+            <phone:PivotItem Header="{Binding Path=LocalizedResources.New, Source={StaticResource LocalizedStrings}}">
+                <ScrollViewer>
+                    <phone:LongListSelector x:Name="NewPostsListSelector"
+                                            Width="465"
+                                            Height="{Binding ConverterParameter=620,
+                                                             Converter={StaticResource MultiDeviceHeightConverter}}"
+                                            GridCellSize="{Binding Converter={StaticResource GridCellSizeConverter}}"
+                                            ItemTemplate="{StaticResource SelectingTemplate}"
+                                            ItemsSource="{Binding NewPosts}"
+                                            LayoutMode="{Binding Converter={StaticResource LayoutModeConverter}}">
+                        <i:Interaction.Behaviors>
+                            <extensions:IncrementalLoadingBehavior LoadCommand="{Binding LoadPostsCommand}" />
+                        </i:Interaction.Behaviors>
+                    </phone:LongListSelector>
+                </ScrollViewer>
+            </phone:PivotItem>
+        </phone:Pivot>
+    </Grid>
+</phone:PhoneApplicationPage>

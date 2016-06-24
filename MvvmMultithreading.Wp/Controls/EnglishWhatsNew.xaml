@@ -1,0 +1,151 @@
+﻿<StackPanel x:Class="Pr0gramm.Controls.EnglishWhatsNew"
+            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+            Margin="0,0,0,24">
+    <StackPanel.Resources>
+        <Style x:Key="TextBlockStyle"
+               BasedOn="{StaticResource PhoneTextNormalStyle}"
+               TargetType="TextBlock">
+            <Setter Property="TextWrapping" Value="Wrap" />
+            <Setter Property="Opacity" Value=".8" />
+        </Style>
+
+        <DataTemplate x:Key="bullet">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Ellipse Width="10"
+                         Height="10"
+                         Margin="12,10,-4,0"
+                         VerticalAlignment="Top"
+                         Fill="{StaticResource PhoneForegroundBrush}"
+                         Opacity=".8" />
+                <TextBlock Grid.Column="1"
+                           VerticalAlignment="Top"
+                           Style="{StaticResource TextBlockStyle}"
+                           Text="{Binding}" />
+            </Grid>
+        </DataTemplate>
+    </StackPanel.Resources>
+
+    <TextBlock Foreground="{StaticResource PhoneAccentBrush}"
+               Style="{StaticResource PhoneTextLargeStyle}"
+               Text="v1.6.11.4" />
+
+    <!--  1.6.11.4  -->
+    <ContentPresenter HorizontalAlignment="Stretch"
+                      Content="Fixed a bug which caused that guest users couldn't use the app anymore"
+                      ContentTemplate="{StaticResource bullet}" />
+
+    <TextBlock Foreground="{StaticResource PhoneAccentBrush}"
+               Style="{StaticResource PhoneTextLargeStyle}"
+               Text="v1.6.11.3" />
+
+    <!--  1.6.11.3  -->
+    <ContentPresenter HorizontalAlignment="Stretch"
+                      Content="Fixed a bug which caused that user could not interact with their account (voting, commenting etc.)"
+                      ContentTemplate="{StaticResource bullet}" />
+
+    <ContentPresenter HorizontalAlignment="Stretch"
+                      Content="Added spell check to textboxes"
+                      ContentTemplate="{StaticResource bullet}" />
+
+    <TextBlock Foreground="{StaticResource PhoneAccentBrush}"
+               Style="{StaticResource PhoneTextLargeStyle}"
+               Text="v1.6.11.2" />
+
+    <!--  1.6.11.2  -->
+    <ContentPresenter HorizontalAlignment="Stretch"
+                      Content="Fixed a bug which caused to crash the app on startup"
+                      ContentTemplate="{StaticResource bullet}" />
+
+    <TextBlock Foreground="{StaticResource PhoneAccentBrush}"
+               Style="{StaticResource PhoneTextLargeStyle}"
+               Text="v1.6.11.1" />
+
+    <!--  1.6.11.1  -->
+    <ContentPresenter HorizontalAlignment="Stretch"
+                      Content="Fixed a bug which caused to crash the app while login, or when loading profiles (pr0gram API changed a bit)"
+                      ContentTemplate="{StaticResource bullet}" />
+
+    <TextBlock Foreground="{StaticResource PhoneAccentBrush}"
+               Style="{StaticResource PhoneTextLargeStyle}"
+               Text="v1.6.11" />
+
+    <!--  1.6.11  -->
+    <ContentPresenter HorizontalAlignment="Stretch"
+                      Content="Pictures will be saved in the albums folder under 'Pr0gramm'"
+                      ContentTemplate="{StaticResource bullet}" />
+    <ContentPresenter HorizontalAlignment="Stretch"
+                      Content="GIFs and Webms can be saved in their format and opend later with apps or on the pc"
+                      ContentTemplate="{StaticResource bullet}" />
+    <ContentPresenter HorizontalAlignment="Stretch"
+                      Content="You can copy the pr0gramm link into the clipboard now"
+                      ContentTemplate="{StaticResource bullet}" />
+    <ContentPresenter HorizontalAlignment="Stretch"
+                      Content="The OP will be shown in the comments"
+                      ContentTemplate="{StaticResource bullet}" />
+    <ContentPresenter HorizontalAlignment="Stretch"
+                      Content="Links in comments can now be opened by tapping the comment and tapping the link on the extended comment view"
+                      ContentTemplate="{StaticResource bullet}" />
+    <ContentPresenter HorizontalAlignment="Stretch"
+                      Content="On the start screen as a logged user you can see how many unread messages you have. Reading/writing messages will eventually come in few weeks"
+                      ContentTemplate="{StaticResource bullet}" />
+
+    <TextBlock Foreground="{StaticResource PhoneAccentBrush}"
+               Style="{StaticResource PhoneTextLargeStyle}"
+               Text="v1.6.10.2" />
+
+    <TextBlock Foreground="{StaticResource PhoneAccentBrush}"
+               Style="{StaticResource PhoneTextLargeStyle}"
+               Text="v1.6.10.2" />
+
+    <!--  1.6.10.2  -->
+    <ContentPresenter HorizontalAlignment="Stretch"
+                      Content="Fixed a bug which caused that the download function wouldn't work since version 1.6.10"
+                      ContentTemplate="{StaticResource bullet}" />
+
+    <TextBlock Foreground="{StaticResource PhoneAccentBrush}"
+               Style="{StaticResource PhoneTextLargeStyle}"
+               Text="v1.6.10.1" />
+
+    <!--  1.6.10.1  -->
+    <ContentPresenter HorizontalAlignment="Stretch"
+                      Content="Fixed a small bug which caused to crash the app"
+                      ContentTemplate="{StaticResource bullet}" />
+
+    <TextBlock Foreground="{StaticResource PhoneAccentBrush}"
+               Style="{StaticResource PhoneTextLargeStyle}"
+               Text="v1.6.10" />
+
+    <!--  1.6.10  -->
+    <ContentPresenter HorizontalAlignment="Stretch"
+                      Content="Buttons on the side of a post to go to the next/previous post (can be enabled in the settings)"
+                      ContentTemplate="{StaticResource bullet}" />
+    <ContentPresenter HorizontalAlignment="Stretch"
+                      Content="Automatic loading of comments can be turned off and in posts synchronized manually (can be enabled in the settings)"
+                      ContentTemplate="{StaticResource bullet}" />
+    <ContentPresenter HorizontalAlignment="Stretch"
+                      Content="You can browse the profiles of other users by holding on their comment or tapping at the posters name"
+                      ContentTemplate="{StaticResource bullet}" />
+    <ContentPresenter HorizontalAlignment="Stretch"
+                      Content="New view options in settings menu"
+                      ContentTemplate="{StaticResource bullet}" />
+    <ContentPresenter HorizontalAlignment="Stretch"
+                      Content="Gifs can be tapped to make them fullscreen"
+                      ContentTemplate="{StaticResource bullet}" />
+    <ContentPresenter HorizontalAlignment="Stretch"
+                      Content="Extended the about page"
+                      ContentTemplate="{StaticResource bullet}" />
+    <ContentPresenter HorizontalAlignment="Stretch"
+                      Content="The space of the main menu is used more efficiently"
+                      ContentTemplate="{StaticResource bullet}" />
+    <ContentPresenter HorizontalAlignment="Stretch"
+                      Content="It is possible to share pictures now"
+                      ContentTemplate="{StaticResource bullet}" />
+    <ContentPresenter HorizontalAlignment="Stretch"
+                      Content="You can browse tags by tapping on them and tap on 'browse tag'"
+                      ContentTemplate="{StaticResource bullet}" />
+</StackPanel>

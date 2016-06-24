@@ -1,0 +1,242 @@
+﻿<phone:PhoneApplicationPage x:Class="Pr0gramm.View.SettingsPage"
+                            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                            xmlns:extensions="clr-namespace:Pr0gramm.Extensions"
+                            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                            xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+                            xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+                            xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+                            xmlns:toolkitPrimitives="clr-namespace:Microsoft.Phone.Controls.Primitives;assembly=Microsoft.Phone.Controls.Toolkit"
+                            Orientation="Portrait"
+                            SupportedOrientations="Portrait"
+                            shell:SystemTray.IsVisible="True"
+                            mc:Ignorable="d">
+    <phone:PhoneApplicationPage.Resources>
+        <extensions:FagFilterIntConverter x:Name="fagFilterIntConverter" />
+        <extensions:FagFilterIntConverter x:Name="postFilterIntConverter" />
+        <extensions:PostViewIntConverter x:Name="postViewIntConverter" />
+        <extensions:LocalizeEnumConverter x:Name="LocalizeEnumConverter" />
+        <Style x:Key="PointStyle" TargetType="toolkit:ToggleSwitch">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="toolkit:ToggleSwitch">
+                        <Grid Margin="12,5,12,42">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <StackPanel Orientation="Horizontal">
+                                <ContentControl x:Name="Content"
+                                                Margin="-1,1,0,-7"
+                                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                Content="{Binding Path=LocalizedResources.From,
+                                                                  Source={StaticResource LocalizedStrings}}"
+                                                ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                IsTabStop="False"
+                                                Opacity="{TemplateBinding Opacity}" />
+                                <TextBox x:Name="PostPointsTextBox"
+                                         Width="100"
+                                         Margin="0 -12 0 0"
+                                         InputScope="Number"
+                                         Loaded="PostPointsTextBox_OnLoaded" />
+                                <ContentControl Margin="-1,1,0,-7"
+                                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                Content="{Binding Path=LocalizedResources.ShowPoints,
+                                                                  Source={StaticResource LocalizedStrings}}"
+                                                ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                IsTabStop="False"
+                                                Opacity="{TemplateBinding Opacity}" />
+                            </StackPanel>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="SlideShowStyle" TargetType="toolkit:ToggleSwitch">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="toolkit:ToggleSwitch">
+                        <Grid Margin="12,5,12,42">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <StackPanel Orientation="Horizontal">
+                                <ContentControl x:Name="Content"
+                                                Margin="-1,1,0,-7"
+                                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                Content="{Binding Path=LocalizedResources.ChangeEvery,
+                                                                  Source={StaticResource LocalizedStrings}}"
+                                                ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                IsTabStop="False"
+                                                Opacity="{TemplateBinding Opacity}" />
+                                <TextBox x:Name="SlideshowSecondsTextBox"
+                                         Width="100"
+                                         Margin="0 -12 0 0"
+                                         InputScope="Number"
+                                         Loaded="SlideShowSecondsTextbox_OnLoaded" />
+                                <ContentControl Margin="-1,1,0,-7"
+                                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                Content="{Binding Path=LocalizedResources.ChangeSeconds,
+                                                                  Source={StaticResource LocalizedStrings}}"
+                                                ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                IsTabStop="False"
+                                                Opacity="{TemplateBinding Opacity}" />
+                            </StackPanel>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </phone:PhoneApplicationPage.Resources>
+    <phone:PhoneApplicationPage.FontFamily>
+        <StaticResource ResourceKey="PhoneFontFamilyNormal" />
+    </phone:PhoneApplicationPage.FontFamily>
+    <phone:PhoneApplicationPage.FontSize>
+        <StaticResource ResourceKey="PhoneFontSizeNormal" />
+    </phone:PhoneApplicationPage.FontSize>
+    <phone:PhoneApplicationPage.Foreground>
+        <StaticResource ResourceKey="PhoneForegroundBrush" />
+    </phone:PhoneApplicationPage.Foreground>
+    <!--  LayoutRoot is the root grid where all page content is placed  -->
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!--  TitlePanel contains the name of the application and page title  -->
+        <StackPanel Grid.Row="0" Margin="12,17,0,28">
+            <TextBlock Style="{StaticResource PhoneTextNormalStyle}" Text="{Binding LocalizedResources.ApplicationTitle, Source={StaticResource LocalizedStrings}}" />
+        </StackPanel>
+
+        <phone:Pivot Height="750" Margin="0 20 0 0">
+            <phone:PivotItem Header="{Binding Path=LocalizedResources.SettingsCaps, Source={StaticResource LocalizedStrings}}">
+                <ScrollViewer>
+                    <Grid x:Name="ContentPanel" Margin="12,0,12,0">
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel Orientation="Vertical">
+                                <toolkit:ToggleSwitch x:Name="SfwSwitch"
+                                                      Content="SFW"
+                                                      Tap="ShouldLoadSFWCheck" />
+                                <toolkit:ToggleSwitch x:Name="NSFWSwitch"
+                                                      Content="NSFW"
+                                                      Tap="ShouldLoadNSFWCheck" />
+                                <toolkit:ToggleSwitch x:Name="NSFLSwitch"
+                                                      Content="NSFL"
+                                                      Tap="ShouldLoadNSFLCheck" />
+                            </StackPanel>
+                            <toolkit:ListPicker x:Name="FagFilterList"
+                                                Header="{Binding Path=LocalizedResources.StateFilter,
+                                                                 Source={StaticResource LocalizedStrings}}"
+                                                SelectedIndex="{Binding Property,
+                                                                        Converter={StaticResource postFilterIntConverter},
+                                                                        ElementName=_this,
+                                                                        Mode=TwoWay}"
+                                                SelectionChanged="FagFilterChanged">
+                                <toolkit:ListPicker.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Converter={StaticResource LocalizeEnumConverter}}" />
+                                    </DataTemplate>
+                                </toolkit:ListPicker.ItemTemplate>
+                            </toolkit:ListPicker>
+                            <toolkit:ListPicker x:Name="PostsViewSetting"
+                                                Header="{Binding Path=LocalizedResources.View,
+                                                                 Source={StaticResource LocalizedStrings}}"
+                                                SelectionChanged="PostViewChanged">
+                                <toolkit:ListPicker.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Converter={StaticResource LocalizeEnumConverter}}" />
+                                    </DataTemplate>
+                                </toolkit:ListPicker.ItemTemplate>
+                            </toolkit:ListPicker>
+                            <toolkit:ListPicker x:Name="LanguageSettings"
+                                                Header="{Binding Path=LocalizedResources.Language,
+                                                                 Source={StaticResource LocalizedStrings}}"
+                                                SelectionChanged="LanguageChanged" />
+                            <toolkit:ListPicker x:Name="ThemeSettings"
+                                                Header="{Binding Path=LocalizedResources.Theme,
+                                                                 Source={StaticResource LocalizedStrings}}"
+                                                SelectionChanged="ThemeChanged" />
+                            <Border Height="100"
+                                    Background="Transparent"
+                                    BorderBrush="Transparent"
+                                    BorderThickness="0" />
+                        </StackPanel>
+                    </Grid>
+                </ScrollViewer>
+            </phone:PivotItem>
+            <phone:PivotItem Header="{Binding Path=LocalizedResources.TypeFilter, Source={StaticResource LocalizedStrings}}">
+                <Grid Margin="12,0,12,0">
+                    <StackPanel Orientation="Vertical">
+                        <toolkit:ToggleSwitch x:Name="PicSwitch"
+                                              Content="{Binding Path=LocalizedResources.LoadPicture,
+                                                                Source={StaticResource LocalizedStrings}}"
+                                              Tap="ShouldLoadPicsCheck" />
+                        <toolkit:ToggleSwitch x:Name="GifSwitch"
+                                              Content="{Binding Path=LocalizedResources.LoadGifs,
+                                                                Source={StaticResource LocalizedStrings}}"
+                                              Tap="ShouldLoadGifsCheck" />
+                        <toolkit:ToggleSwitch x:Name="WebmSwitch"
+                                              Content="{Binding Path=LocalizedResources.LoadWebms,
+                                                                Source={StaticResource LocalizedStrings}}"
+                                              Tap="ShouldLoadWebmsCheck" />
+                        <toolkit:ToggleSwitch x:Name="Positivewitch"
+                                              Content="{Binding Path=LocalizedResources.Pointsfilter,
+                                                                Source={StaticResource LocalizedStrings}}"
+                                              Tap="ShouldLoadPositivePostCheck" />
+                        <toolkit:ToggleSwitch x:Name="PointsSetter" Style="{StaticResource PointStyle}" />
+
+                    </StackPanel>
+                </Grid>
+            </phone:PivotItem>
+            <phone:PivotItem Header="{Binding Path=LocalizedResources.Other, Source={StaticResource LocalizedStrings}}">
+                <Grid Margin="12,0,12,0">
+                    <StackPanel Orientation="Vertical">
+                        <toolkit:ToggleSwitch x:Name="ActivateSlideshow"
+                                              Content="{Binding Path=LocalizedResources.ShowSlideshow,
+                                                                Source={StaticResource LocalizedStrings}}"
+                                              Tap="ActivateSlideShowSwitch" />
+                        <toolkit:ToggleSwitch x:Name="SlideShowSeconds" Style="{StaticResource SlideShowStyle}" />
+
+                        <toolkit:ToggleSwitch x:Name="ShowNavigationButtonsSwitch"
+                                              Content="{Binding Path=LocalizedResources.ShowNavigationButtons,
+                                                                Source={StaticResource LocalizedStrings}}"
+                                              Tap="ShouldShowNavigationButtons" />
+                        <TextBlock Margin="0 -20 0 0"
+                                   FontSize="15"
+                                   Foreground="DarkGray"
+                                   Text="{Binding Path=LocalizedResources.ShowNavigationButtonsText,
+                                                  Source={StaticResource LocalizedStrings}}"
+                                   TextWrapping="Wrap" />
+
+                        <toolkit:ToggleSwitch x:Name="ManualCommentsSwitch"
+                                              Content="{Binding Path=LocalizedResources.ManualCommentsSwitch,
+                                                                Source={StaticResource LocalizedStrings}}"
+                                              Tap="ShouldEnableManualComments" />
+                        <TextBlock Margin="0 -20 0 0"
+                                   FontSize="15"
+                                   Foreground="DarkGray"
+                                   Text="{Binding Path=LocalizedResources.ManualCommentsSwitchText,
+                                                  Source={StaticResource LocalizedStrings}}"
+                                   TextWrapping="Wrap" />
+                    </StackPanel>
+                </Grid>
+            </phone:PivotItem>
+        </phone:Pivot>
+    </Grid>
+
+</phone:PhoneApplicationPage>

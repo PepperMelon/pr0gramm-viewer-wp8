@@ -1,0 +1,411 @@
+﻿<phone:PhoneApplicationPage x:Class="Pr0gramm.View.PostPage"
+                            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                            xmlns:controls="clr-namespace:Coding4Fun.Toolkit.Controls;assembly=Coding4Fun.Toolkit.Controls"
+                            xmlns:converters="clr-namespace:Coding4Fun.Toolkit.Controls.Converters;assembly=Coding4Fun.Toolkit.Controls"
+                            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                            xmlns:extensions="clr-namespace:Pr0gramm.Extensions"
+                            xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+                            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                            xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+                            xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+                            xmlns:system="clr-namespace:System;assembly=mscorlib"
+                            xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+                            xmlns:view="clr-namespace:Pr0gramm.View"
+                            FontFamily="{StaticResource PhoneFontFamilyNormal}"
+                            FontSize="{StaticResource PhoneFontSizeNormal}"
+                            Foreground="{StaticResource PhoneForegroundBrush}"
+                            Orientation="Portrait"
+                            SupportedOrientations="Portrait"
+                            shell:SystemTray.IsVisible="True"
+                            mc:Ignorable="d">
+    <phone:PhoneApplicationPage.Resources>
+        <extensions:DatetimeAgoConverter x:Key="DatetimeAgoConverter" />
+        <extensions:MarkToColorConverter x:Key="MarkToColorConverter" />
+        <extensions:UpDownVotePointCoverter x:Key="UpDownVotePointCoverter" />
+        <extensions:LevelWidthConverter x:Key="LevelWidthConverter" />
+        <extensions:LevelColorConverter x:Key="LevelColorConverter" />
+        <extensions:LevelMarginConverter x:Key="LevelMarginConverter" />
+        <extensions:LevelBorderVisibilityConverter x:Key="LevelBorderVisibilityConverter" />
+        <converters:BooleanToVisibilityConverter x:Key="BoolToVisConv" />
+
+        <Style x:Name="CustomButtonStyle" TargetType="Button">
+            <Setter Property="Width" Value="225" />
+            <Setter Property="Height" Value="90" />
+            <Setter Property="FontSize" Value="20" />
+            <Setter Property="Background" Value="{StaticResource PhoneAccentColor}" />
+        </Style>
+        <ControlTemplate x:Key="ButtonBaseControlTemplate1" TargetType="ButtonBase">
+            <Grid Background="Transparent">
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroup x:Name="CommonStates">
+                        <VisualState x:Name="Normal" />
+                        <VisualState x:Name="MouseOver" />
+                        <VisualState x:Name="Pressed">
+                            <Storyboard>
+                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentContainer" Storyboard.TargetProperty="Foreground">
+                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PhoneAccentColor}" />
+                                </ObjectAnimationUsingKeyFrames>
+                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ButtonBackground" Storyboard.TargetProperty="Background">
+                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PhoneContrastBackgroundColor}" />
+                                </ObjectAnimationUsingKeyFrames>
+                            </Storyboard>
+                        </VisualState>
+                        <VisualState x:Name="Disabled">
+                            <Storyboard>
+                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentContainer" Storyboard.TargetProperty="Foreground">
+                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PhoneDisabledBrush}" />
+                                </ObjectAnimationUsingKeyFrames>
+                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ButtonBackground" Storyboard.TargetProperty="BorderBrush">
+                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PhoneDisabledBrush}" />
+                                </ObjectAnimationUsingKeyFrames>
+                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ButtonBackground" Storyboard.TargetProperty="Background">
+                                    <DiscreteObjectKeyFrame KeyTime="0" Value="Transparent" />
+                                </ObjectAnimationUsingKeyFrames>
+                            </Storyboard>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateManager.VisualStateGroups>
+                <Border x:Name="ButtonBackground"
+                        Margin="{StaticResource PhoneTouchTargetOverhang}"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="0">
+                    <ContentControl x:Name="ContentContainer"
+                                    HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                    VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                    Content="{TemplateBinding Content}"
+                                    ContentTemplate="{TemplateBinding ContentTemplate}"
+                                    Foreground="{TemplateBinding Foreground}"
+                                    Padding="{TemplateBinding Padding}" />
+                </Border>
+            </Grid>
+        </ControlTemplate>
+        <DataTemplate x:Key="CommentTemplate">
+            <Grid Width="{Binding Converter={StaticResource LevelWidthConverter}}"
+                  Margin="{Binding Converter={StaticResource LevelMarginConverter}}"
+                  Tap="OnPostTap"
+                  toolkit:TiltEffect.IsTiltEnabled="True">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <toolkit:ContextMenuService.ContextMenu>
+                    <toolkit:ContextMenu IsFadeEnabled="True">
+                        <toolkit:MenuItem Header="{Binding Path=LocalizedResources.VisitProfile, Source={StaticResource LocalizedStrings}}" Tap="VisitProfileTab" />
+                    </toolkit:ContextMenu>
+                </toolkit:ContextMenuService.ContextMenu>
+
+                <Border Grid.RowSpan="2"
+                        Width="{Binding Converter={StaticResource LevelBorderVisibilityConverter}}"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Stretch"
+                        BorderBrush="{Binding Converter={StaticResource LevelColorConverter}}"
+                        BorderThickness="1" />
+
+                <StackPanel Grid.Row="0"
+                            Grid.Column="1"
+                            Margin="10 0 0 0"
+                            Orientation="Horizontal">
+                    <Border Width="16"
+                            Height="16"
+                            Margin="0 3 0 0"
+                            Background="{Binding Mark,
+                                                 Converter={StaticResource MarkToColorConverter}}"
+                            BorderBrush="Black"
+                            BorderThickness="0.5"
+                            CornerRadius="50" />
+                    <TextBlock Margin="5 0 0 0"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Bottom"
+                               FontSize="20"
+                               Foreground="DodgerBlue"
+                               Text="{Binding Name}" />
+                    <TextBlock Margin="5 0 0 0"
+                               Foreground="DarkGray"
+                               Text="{Binding Converter={StaticResource UpDownVotePointCoverter}}" />
+                    <Border Width="30"
+                            Height="20"
+                            Margin="5 0 0 0"
+                            VerticalAlignment="Bottom"
+                            Background="{StaticResource PhoneAccentBrush}"
+                            CornerRadius="5"
+                            Visibility="{Binding IsUserOriginalPoster,
+                                                 Converter={StaticResource BoolToVisConv}}">
+                        <TextBlock Margin="0"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontSize="15"
+                                   Padding="0"
+                                   Style="{StaticResource PhoneTextBlockBase}"
+                                   Text="OP" />
+                    </Border>
+                </StackPanel>
+
+                <TextBlock Grid.Row="0"
+                           Grid.Column="1"
+                           HorizontalAlignment="Right"
+                           VerticalAlignment="Bottom"
+                           FontSize="20"
+                           Foreground="DarkGray"
+                           Text="{Binding ReadableCreatedTime,
+                                          Converter={StaticResource DatetimeAgoConverter}}" />
+
+
+                <TextBlock Grid.Row="1"
+                           Grid.Column="1"
+                           Margin="10 0 0 0"
+                           Text="{Binding Content}"
+                           TextWrapping="Wrap" />
+
+                <!--
+                    <RichTextBox Grid.Row="1"
+                    Grid.Column="1"
+                    Margin="10 0 0 0"
+                    Loaded="FrameworkElement_OnLoaded"
+                    TextWrapping="Wrap">
+                    <Paragraph>
+                    <Run Text="{Binding Path=Content}" />
+                    </Paragraph>
+                    </RichTextBox>
+                -->
+
+            </Grid>
+        </DataTemplate>
+    </phone:PhoneApplicationPage.Resources>
+
+    <!--  LayoutRoot is the root grid where all page content is placed  -->
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <Grid.Resources>
+            <Storyboard x:Name="CommentNavControlSlideInFromBottom">
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="CommentNavControl" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)">
+                    <EasingDoubleKeyFrame KeyTime="0" Value="{Binding PhoneHeight}" />
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0" />
+                </DoubleAnimationUsingKeyFrames>
+            </Storyboard>
+            <Storyboard x:Name="CommentNavControlSlideOutFromBottom">
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="CommentNavControl" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)">
+                    <EasingDoubleKeyFrame KeyTime="0" Value="0" />
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="{Binding PhoneHeight}" />
+                </DoubleAnimationUsingKeyFrames>
+            </Storyboard>
+        </Grid.Resources>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!--  TitlePanel contains the name of the application and page title  -->
+        <StackPanel x:Name="titleStackPanel"
+                    Grid.Row="0"
+                    Margin="12,0,0,1">
+            <StackPanel Margin="5,0,0,0"
+                        Orientation="Horizontal"
+                        Tap="VisitOPProfile">
+                <Border Width="20"
+                        Height="20"
+                        Margin="0 4 0 0"
+                        Background="{Binding Post.Mark,
+                                             Converter={StaticResource MarkToColorConverter}}"
+                        BorderBrush="Black"
+                        BorderThickness="0.5"
+                        CornerRadius="50" />
+                <TextBlock Margin="5 0 0 0"
+                           FontSize="30"
+                           Style="{StaticResource PhoneTextTitle1Style}"
+                           Text="{Binding Post.User}" />
+            </StackPanel>
+        </StackPanel>
+
+        <!--  ContentPanel - place additional content here  -->
+        <Grid x:Name="ContentPanel" Grid.Row="1">
+            <Grid.RenderTransform>
+                <CompositeTransform x:Name="transform" />
+            </Grid.RenderTransform>
+            <ScrollViewer x:Name="mainScrollViewer">
+                <StackPanel>
+                    <TextBlock Margin="42 0 0 5"
+                               FontSize="20"
+                               Foreground="DarkGray"
+                               Text="{Binding Post.ReadableCreatedTime,
+                                              Converter={StaticResource DatetimeAgoConverter}}" />
+
+                    <Grid>
+                        <Button Name="NextPostButton"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Stretch"
+                                BorderThickness="0"
+                                Canvas.ZIndex="3"
+                                Content="&gt;"
+                                FontSize="60"
+                                Opacity="0.5"
+                                Tap="NextPostButtonTap" />
+                        <Button Name="PreviousPostButton"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Stretch"
+                                BorderThickness="0"
+                                Canvas.ZIndex="3"
+                                Content="&lt;"
+                                FontSize="60"
+                                Opacity="0.5"
+                                Tap="PreviousPostButtonTap" />
+                        <Image x:Name="img" Stretch="Fill" />
+                        <Grid x:Name="BrowserPanel"
+                              HorizontalAlignment="Stretch"
+                              Background="Transparent"
+                              Canvas.ZIndex="2"
+                              Tap="BrowserPanel_OnTap" />
+                    </Grid>
+                    <TextBlock x:Name="errortxb" FontSize="20" />
+                    <StackPanel x:Name="MainPanel" Margin="12 0 12 0">
+                        <ProgressBar Name="progressBar"
+                                     Width="400"
+                                     HorizontalAlignment="Center"
+                                     IsIndeterminate="True" />
+
+                        <Grid Margin="0 5 0 0">
+                            <StackPanel Orientation="Horizontal">
+                                <controls:RoundToggleButton x:Name="UpVoteButton"
+                                                            BorderBrush="{StaticResource PhoneForegroundBrush}"
+                                                            ButtonHeight="60"
+                                                            ButtonWidth="60"
+                                                            Foreground="{StaticResource PhoneForegroundBrush}"
+                                                            ImageSource="..\Resources\Up32.png"
+                                                            Tap="UpVoteTap" />
+                                <TextBlock x:Name="Points"
+                                           FontSize="30"
+                                           Text="{Binding Post,
+                                                          Converter={StaticResource UpDownVotePointCoverter}}" />
+                                <controls:RoundToggleButton x:Name="DownVoteButton"
+                                                            BorderBrush="{StaticResource PhoneForegroundBrush}"
+                                                            ButtonHeight="60"
+                                                            ButtonWidth="60"
+                                                            Foreground="{StaticResource PhoneForegroundBrush}"
+                                                            ImageSource="..\Resources\Down32.png"
+                                                            Tap="DownVoteTap" />
+                                <TextBlock x:Name="webmtxtb" FontSize="20" />
+                            </StackPanel>
+                            <Image x:Name="FavoriteButton"
+                                   Width="60"
+                                   Height="60"
+                                   Margin="0 -10 5 0"
+                                   HorizontalAlignment="Right"
+                                   VerticalAlignment="Top"
+                                   Canvas.ZIndex="2"
+                                   Source="..\Resources\GrayHeart.png"
+                                   Tap="FavoriteButton_OnTap" />
+                        </Grid>
+
+                        <StackPanel Name="LoadCommentsContainer" Tap="LoadCommentsButtonTap">
+                            <Image Width="100"
+                                   Height="100"
+                                   HorizontalAlignment="Center"
+                                   Source="..\Resources\Data-Synchronize1.png" />
+                            <TextBlock Margin="0 -20 0 0"
+                                       HorizontalAlignment="Center"
+                                       FontSize="20"
+                                       Text="Kommentare laden" />
+                        </StackPanel>
+                        <ListBox Margin="5 3 5 5"
+                                 ItemsSource="{Binding PostInfo.Tags}"
+                                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                 ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                                 Tap="TagSelectionChanged">
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <toolkit:WrapPanel Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding Tag, StringFormat='{}{0}, '}" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </StackPanel>
+                    <ListBox x:Name="CommentsList"
+                             Width="Auto"
+                             Height="Auto"
+                             HorizontalAlignment="Stretch"
+                             VerticalAlignment="Stretch"
+                             ItemTemplate="{StaticResource CommentTemplate}"
+                             ItemsSource="{Binding PostInfo.Comments}"
+                             ScrollViewer.VerticalScrollBarVisibility="Disabled" />
+                </StackPanel>
+            </ScrollViewer>
+            <StackPanel x:Name="CommentContainer"
+                        VerticalAlignment="Bottom"
+                        Background="{StaticResource PhoneBackgroundBrush}">
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                    <Button BorderBrush="Transparent"
+                            BorderThickness="0"
+                            Content="{Binding Path=LocalizedResources.Send,
+                                              Source={StaticResource LocalizedStrings}}"
+                            Style="{StaticResource CustomButtonStyle}"
+                            Tap="SendTap"
+                            Template="{StaticResource ButtonBaseControlTemplate1}" />
+                    <Button BorderBrush="Transparent"
+                            BorderThickness="0"
+                            Content="{Binding Path=LocalizedResources.Cancel,
+                                              Source={StaticResource LocalizedStrings}}"
+                            Style="{StaticResource CustomButtonStyle}"
+                            Tap="CancelSendTap"
+                            Template="{StaticResource ButtonBaseControlTemplate1}" />
+                </StackPanel>
+
+                <TextBox x:Name="CommentTextbox"
+                         Height="150"
+                         InputScope="Text"
+                         HorizontalAlignment="Stretch"
+                         VerticalAlignment="Bottom"
+                         TextWrapping="Wrap" />
+            </StackPanel>
+        </Grid>
+
+        <view:CommentNavControl x:Name="CommentNavControl" Grid.RowSpan="2">
+            <view:CommentNavControl.RenderTransform>
+                <CompositeTransform TranslateY="5000" />
+            </view:CommentNavControl.RenderTransform>
+        </view:CommentNavControl>
+
+        <ViewportControl x:Name="viewport"
+                         Grid.RowSpan="2"
+                         ManipulationCompleted="OnManipulationCompleted"
+                         ManipulationDelta="OnManipulationDelta"
+                         ManipulationStarted="OnManipulationStarted"
+                         ViewportChanged="viewport_ViewportChanged">
+            <Canvas x:Name="canvas">
+                <Image x:Name="TestImage"
+                       CacheMode="BitmapCache"
+                       ImageOpened="OnImageOpened"
+                       RenderTransformOrigin="0,0">
+                    <Image.RenderTransform>
+                        <ScaleTransform x:Name="xform" />
+                    </Image.RenderTransform>
+                </Image>
+            </Canvas>
+        </ViewportControl>
+        <phone:WebBrowser Name="BigBrowser"
+                          Grid.RowSpan="2"
+                          HorizontalAlignment="Stretch"
+                          VerticalAlignment="Stretch"
+                          IsScriptEnabled="True" />
+        <ProgressBar x:Name="progressBar1"
+                     Height="18"
+                     Margin="0"
+                     VerticalAlignment="Top"
+                     IsIndeterminate="False"
+                     Maximum="100"
+                     Minimum="0"
+                     Padding="0"
+                     Value="{Binding ProgressValue}" />
+    </Grid>
+</phone:PhoneApplicationPage>

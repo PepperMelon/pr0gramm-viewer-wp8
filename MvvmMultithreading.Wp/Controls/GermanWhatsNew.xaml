@@ -1,0 +1,147 @@
+﻿<StackPanel x:Class="Pr0gramm.Controls.GermanWhatsNew"
+            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+            Margin="0,0,0,24">
+    <StackPanel.Resources>
+        <Style x:Key="TextBlockStyle"
+               BasedOn="{StaticResource PhoneTextNormalStyle}"
+               TargetType="TextBlock">
+            <Setter Property="TextWrapping" Value="Wrap" />
+            <Setter Property="Opacity" Value=".8" />
+        </Style>
+
+        <DataTemplate x:Key="bullet">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Ellipse Width="10"
+                         Height="10"
+                         Margin="12,10,-4,0"
+                         VerticalAlignment="Top"
+                         Fill="{StaticResource PhoneForegroundBrush}"
+                         Opacity=".8" />
+                <TextBlock Grid.Column="1"
+                           VerticalAlignment="Top"
+                           Style="{StaticResource TextBlockStyle}"
+                           Text="{Binding}" />
+            </Grid>
+        </DataTemplate>
+    </StackPanel.Resources>
+
+    <TextBlock Foreground="{StaticResource PhoneAccentBrush}"
+               Style="{StaticResource PhoneTextLargeStyle}"
+               Text="v1.6.11.4" />
+
+    <!--  1.6.11.4  -->
+    <ContentPresenter HorizontalAlignment="Stretch"
+                      Content="Bug behoben, bei dem nicht angemeldete Nutzer nicht mehr die App nutzen konnten"
+                      ContentTemplate="{StaticResource bullet}" />
+
+    <TextBlock Foreground="{StaticResource PhoneAccentBrush}"
+               Style="{StaticResource PhoneTextLargeStyle}"
+               Text="v1.6.11.3" />
+
+    <!--  1.6.11.3  -->
+    <ContentPresenter HorizontalAlignment="Stretch"
+                      Content="Bug behoben, bei dem die Nutzer durch ihren Account nicht mit pr0 interagieren konnten (Voten, Kommentare schreiben usw.)"
+                      ContentTemplate="{StaticResource bullet}" />
+
+    <ContentPresenter HorizontalAlignment="Stretch"
+                      Content="Rechtschreibkorrektur in Kommentarfelder aktiviert"
+                      ContentTemplate="{StaticResource bullet}" />
+
+    <TextBlock Foreground="{StaticResource PhoneAccentBrush}"
+               Style="{StaticResource PhoneTextLargeStyle}"
+               Text="v1.6.11.2" />
+
+    <!--  1.6.11.2  -->
+    <ContentPresenter HorizontalAlignment="Stretch"
+                      Content="Fehler behoben, dass die App beim Start abstürzte"
+                      ContentTemplate="{StaticResource bullet}" />
+
+    <TextBlock Foreground="{StaticResource PhoneAccentBrush}"
+               Style="{StaticResource PhoneTextLargeStyle}"
+               Text="v1.6.11.1" />
+
+    <!--  1.6.11.1  -->
+    <ContentPresenter HorizontalAlignment="Stretch"
+                      Content="Bug behoben, dass beim Anmelden und beim Laden von Profile die App abstürtzte (pr0gramm API hat sich etwas geändert)"
+                      ContentTemplate="{StaticResource bullet}" />
+
+    <TextBlock Foreground="{StaticResource PhoneAccentBrush}"
+               Style="{StaticResource PhoneTextLargeStyle}"
+               Text="v1.6.11" />
+
+    <!--  1.6.11  -->
+    <ContentPresenter HorizontalAlignment="Stretch"
+                      Content="Bilder werden nun unter den 'Pr0gramm' Ordner in den Bilderalben gespeichert"
+                      ContentTemplate="{StaticResource bullet}" />
+    <ContentPresenter HorizontalAlignment="Stretch"
+                      Content="GIFs und Webms können gespeichert werden und werden in ihrem Format gespeichert, sodass sie später mit einer App oder am PC abgespielt werden können"
+                      ContentTemplate="{StaticResource bullet}" />
+    <ContentPresenter HorizontalAlignment="Stretch"
+                      Content="Man kann nun den Pr0gramm Link in die Zwischenablage speichern"
+                      ContentTemplate="{StaticResource bullet}" />
+    <ContentPresenter HorizontalAlignment="Stretch"
+                      Content="Der OP wird bei den Kommentaren angezeigt"
+                      ContentTemplate="{StaticResource bullet}" />
+    <ContentPresenter HorizontalAlignment="Stretch"
+                      Content="Bei Kommentar mit Links (der Soße) Kommentar antappen, um in der erweiterten Kommentaransicht den gewünschten Link (Soße) direkt im Browser aufzurufen"
+                      ContentTemplate="{StaticResource bullet}" />
+    <ContentPresenter HorizontalAlignment="Stretch"
+                      Content="Im Anfangsmenü sieht man als angemeldeter Nutzer wie viele ungelesene Nachrichten man hat. In ein paar Wochen wird eventuell noch Nachrichten lesen/schreiben folgen"
+                      ContentTemplate="{StaticResource bullet}" />
+
+    <TextBlock Foreground="{StaticResource PhoneAccentBrush}"
+               Style="{StaticResource PhoneTextLargeStyle}"
+               Text="v1.6.10.2" />
+
+    <!--  1.6.10.2  -->
+    <ContentPresenter HorizontalAlignment="Stretch"
+                      Content="Fehler behoben, dass sich Bilder seit der Version 1.6.10 nicht mehr speichern ließen"
+                      ContentTemplate="{StaticResource bullet}" />
+
+    <TextBlock Foreground="{StaticResource PhoneAccentBrush}"
+               Style="{StaticResource PhoneTextLargeStyle}"
+               Text="v1.6.10.1" />
+
+    <!--  1.6.10.1  -->
+    <ContentPresenter HorizontalAlignment="Stretch"
+                      Content="Kleinen Fehler behoben, der die App abstürzen ließ"
+                      ContentTemplate="{StaticResource bullet}" />
+
+    <TextBlock Foreground="{StaticResource PhoneAccentBrush}"
+               Style="{StaticResource PhoneTextLargeStyle}"
+               Text="v1.6.10" />
+
+    <!--  1.6.10  -->
+    <ContentPresenter HorizontalAlignment="Stretch"
+                      Content="Mit den Tasten am Rand des Posts kann man zwischen den Posts zurück/vor navigieren (in Eintellungen einstellbar)"
+                      ContentTemplate="{StaticResource bullet}" />
+    <ContentPresenter HorizontalAlignment="Stretch"
+                      Content="Das automatische Laden von Kommentaren kann ausgeschaltet werden. Die Kommentare können dann nachträglich im Post nachgeladen werden (in Einstellungen einstellbar)"
+                      ContentTemplate="{StaticResource bullet}" />
+    <ContentPresenter HorizontalAlignment="Stretch"
+                      Content="Profile anderer User können besucht werden in dem man mit dem Finger länger auf dem Kommentar des Users bleibt, oder indem man auf den Namen des Posterstellers tippt"
+                      ContentTemplate="{StaticResource bullet}" />
+    <ContentPresenter HorizontalAlignment="Stretch"
+                      Content="Neue Ansichten sind in den Einstellungen einstellbar"
+                      ContentTemplate="{StaticResource bullet}" />
+    <ContentPresenter HorizontalAlignment="Stretch"
+                      Content="Gifs können durch einfaches tippen in den Vollbildmodus geöffnet werden"
+                      ContentTemplate="{StaticResource bullet}" />
+    <ContentPresenter HorizontalAlignment="Stretch"
+                      Content="'Über' Seite erweitert"
+                      ContentTemplate="{StaticResource bullet}" />
+    <ContentPresenter HorizontalAlignment="Stretch"
+                      Content="Die Fläche der Startseite wurde so umgestalltet, dass sie nun effizienter ist"
+                      ContentTemplate="{StaticResource bullet}" />
+    <ContentPresenter HorizontalAlignment="Stretch"
+                      Content="Es ist jetzt möglich Bilder direkt zu teilen"
+                      ContentTemplate="{StaticResource bullet}" />
+    <ContentPresenter HorizontalAlignment="Stretch"
+                      Content="Man kann nach Tags suchen indem man auf ein Tag tippt und dann auf 'Nach tag suchen' tippt "
+                      ContentTemplate="{StaticResource bullet}" />
+</StackPanel>

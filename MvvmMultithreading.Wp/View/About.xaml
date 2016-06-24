@@ -1,0 +1,79 @@
+﻿<phone:PhoneApplicationPage x:Class="Pr0gramm.View.About"
+                            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                            xmlns:controls="clr-namespace:Pr0gramm.Controls"
+                            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                            xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+                            xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+                            DataContext="{Binding RelativeSource={RelativeSource Self}}"
+                            FontFamily="{StaticResource PhoneFontFamilyNormal}"
+                            FontSize="{StaticResource PhoneFontSizeNormal}"
+                            Foreground="{StaticResource PhoneForegroundBrush}"
+                            Orientation="Portrait"
+                            SupportedOrientations="Portrait"
+                            shell:SystemTray.IsVisible="True"
+                            mc:Ignorable="d">
+
+    <!--  LayoutRoot is the root grid where all page content is placed  -->
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Margin="12,17,0,0">
+            <TextBlock Style="{StaticResource PhoneTextNormalStyle}" Text="{Binding Path=LocalizedResources.ApplicationTitle, Source={StaticResource LocalizedStrings}}" />
+        </StackPanel>
+
+        <phone:Pivot x:Name="aboutPivot"
+                     Grid.Row="1"
+                     SelectionChanged="AboutPivot_OnSelectionChanged">
+            <phone:PivotItem Header="{Binding Path=LocalizedResources.About, Source={StaticResource LocalizedStrings}}">
+                <ScrollViewer>
+                    <StackPanel Margin="0,-12,0,24">
+                        <TextBlock Foreground="{StaticResource PhoneAccentBrush}"
+                                   Style="{StaticResource PhoneTextExtraLargeStyle}"
+                                   Text="{Binding Path=LocalizedResources.ApplicationTitle,
+                                                  Source={StaticResource LocalizedStrings}}" />
+                        <TextBlock Style="{StaticResource PhoneTextLargeStyle}" Text="{Binding Path=LocalizedResources.ByDeveloper, Source={StaticResource LocalizedStrings}}" />
+
+                        <StackPanel Margin="0,18,0,0" Orientation="Horizontal">
+                            <TextBlock Style="{StaticResource PhoneTextNormalStyle}" Text="Version:" />
+                            <TextBlock Margin="0"
+                                       Style="{StaticResource PhoneTextNormalStyle}"
+                                       Text="{Binding Version}" />
+                        </StackPanel>
+
+                        <StackPanel Margin="0 18 0 0">
+                            <TextBlock Style="{StaticResource PhoneTextNormalStyle}"
+                                       Text="{Binding Path=LocalizedResources.Explanation,
+                                                      Source={StaticResource LocalizedStrings}}"
+                                       TextWrapping="Wrap" />
+                        </StackPanel>
+                    </StackPanel>
+                </ScrollViewer>
+            </phone:PivotItem>
+            <phone:PivotItem Header="{Binding Path=LocalizedResources.News, Source={StaticResource LocalizedStrings}}">
+                <ListBox x:Name="news">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Margin="0 20 0 0" Orientation="Vertical">
+                                <TextBlock FontSize="30" Text="{Binding Date}" />
+                                <TextBlock Text="{Binding Text}" TextWrapping="Wrap" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </phone:PivotItem>
+            <phone:PivotItem Header="{Binding Path=LocalizedResources.WhatsNew, Source={StaticResource LocalizedStrings}}">
+                <ScrollViewer>
+                    <Grid>
+                        <controls:EnglishWhatsNew Name="EnglishWhatsNew" />
+                        <controls:GermanWhatsNew Name="GermanWhatsNew" />
+                    </Grid>
+                </ScrollViewer>
+            </phone:PivotItem>
+        </phone:Pivot>
+    </Grid>
+</phone:PhoneApplicationPage>
